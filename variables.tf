@@ -29,7 +29,7 @@ variable unique_id {
 
 variable tags {
     description = "A list of tags for resources created"
-    default     = ["wireguard-vpc-module"]
+    default     = ["-vpc-module"]
 }
 
 ##############################################################################
@@ -82,7 +82,7 @@ variable acl_rules {
 
 variable cidr_blocks {
     description = "List of CIDR blocks for the subnets"
-    type        = "list"
+    type        = list
     default     = [
         "10.10.10.0/24", 
         "10.10.11.0/24", 
