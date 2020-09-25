@@ -26,9 +26,9 @@ output subnet_ids {
 # ACL ID
 ##############################################################################
 
-output acl_id {
-  description = "ID of ACL created"
-  value       = "${ibm_is_network_acl.multizone_acl.id}"
-}
+# output acl_id {
+#   description = "ID of ACL created"
+#   value       = "${ibm_is_network_acl.multizone_acl.id}"
+# }
 
 ##############################################################################

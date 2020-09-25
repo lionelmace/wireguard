@@ -8,6 +8,7 @@ variable ibmcloud_api_key {
 
 variable resource_group {
     description = "Name of resource group to provision resources"
+    default     = "default"
 }
 
 ##############################################################################
@@ -24,12 +25,12 @@ variable ibm_region {
 
 variable unique_id {
     description = "Prefix for all resources created in the module. Must begin with a letter."
-    default     = "wireguard-"
+    default     = "wireguard"
 }
 
 variable tags {
     description = "A list of tags for resources created"
-    default     = ["-vpc-module"]
+    default     = ["terraform", "wireguard"]
 }
 
 ##############################################################################
@@ -40,7 +41,12 @@ variable tags {
 ##############################################################################
 
 variable generation {
-    description = "VPC generation. Can be 1 or 2"
+    description = "VPC generation. Version 2 is recommended."
+    default     = 2
+}
+
+variable number_of_zones {
+    description = "Number of Availability Zones within a MZR."
     default     = 2
 }
 
@@ -53,8 +59,6 @@ variable enable_public_gateway {
   description = "Enable public gateways, true or false"
   default     = true
 }
-
-##############################################################################
 
 
 ##############################################################################
@@ -80,13 +84,23 @@ variable acl_rules {
   ]
 }
 
-variable cidr_blocks {
+variable prefix_cidr_blocks {
     description = "List of CIDR blocks for the subnets"
     type        = list
     default     = [
-        "10.10.10.0/24", 
-        "10.10.11.0/24", 
-        "10.10.12.0/24"
+        "10.10.0.0/18", 
+        "10.20.0.0/18", 
+        "10.30.0.0/18"
+    ]  
+}
+
+variable subnet_cidr_blocks {
+    description = "List of CIDR blocks for the subnets"
+    type        = list
+    default     = [
+        "10.10.0.0/24", 
+        "10.20.0.0/24", 
+        "10.30.0.0/24"
     ]  
 }
 
