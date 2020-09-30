@@ -104,4 +104,42 @@ variable subnet_cidr_blocks {
     ]  
 }
 
+
+##############################################################################
+# Security Group variables
+##############################################################################
+
+variable sg_rules {
+    default = [
+        # {
+        #     # Default SG Rules
+        #     "direction": "outbound",
+        #     "ip_version": "ipv4",
+        #     "port_max": 0,
+        #     "port_min": 0,
+        #     "protocol": "all",
+        #     "remote": "0.0.0.0/0"
+        # },
+        # {
+        #     # Default SG Rules
+        #     "direction": "inbound",
+        #     "ip_version": "ipv4",
+        #     "port_max": 0,
+        #     "port_min": 0,
+        #     "protocol": "all",
+        #     "remote": "r010-7583779d-560c-4826-92e0-4b341375dc9e"
+        # },
+        {
+            # Required by IKS to allow inbound traffic 
+            # to ports 30000 - 32767 of your worker nodes
+            "direction": "inbound",
+            "ip_version": "ipv4",
+            "port_max": 32767,
+            "port_min": 30000,
+            "protocol": "tcp",
+            "remote": "0.0.0.0/0"
+        }
+    ]
+}
+
 ##############################################################################

@@ -21,7 +21,7 @@ resource ibm_is_vpc vpc {
 # Create Address Prefixes
 ##############################################################################
 
-resource ibm_is_vpc_address_prefix subnet_prefix {
+resource ibm_is_vpc_address_prefix prefix {
   count = var.number_of_zones
 
   name  = "${var.unique_id}-prefix-zone-${count.index + 1}"
@@ -41,7 +41,6 @@ resource ibm_is_public_gateway gateway {
   name  = "${var.unique_id}-gateway-zone-${count.index+1}"
   vpc   = ibm_is_vpc.vpc.id
   zone  = "${var.ibm_region}-${count.index+1}"
-
 }
 
 ##############################################################################
@@ -57,6 +56,7 @@ resource ibm_is_subnet subnet {
   ipv4_cidr_block = element(var.subnet_cidr_blocks, count.index)
   public_gateway  = element(ibm_is_public_gateway.gateway.*.id, count.index)
   network_acl     = ibm_is_network_acl.multizone_acl.id
+  depends_on      = [ibm_is_vpc_address_prefix.prefix]
 }
 
 ##############################################################################
