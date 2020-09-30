@@ -23,26 +23,23 @@ resource ibm_is_network_acl multizone_acl {
 
 
 ##############################################################################
+# Create Default Security Groups
+##############################################################################
+
+resource ibm_is_security_group default_sg {
+  
+  name       = "${var.unique_id}-sg"
+  vpc        = ibm_is_vpc.vpc.id
+}
+
+##############################################################################
 # Create Security Groups used by all resources in VPC
 ##############################################################################
 
-resource ibm_is_security_group sgs {
-  
-  #name = "${var.unique_id}-sgs"
-  name = "scurvy-staring-candied-distincted"
-  vpc  = ibm_is_vpc.vpc.id
+resource ibm_is_security_group_rule sgs {
+  count = length(var.sg_rules)
 
-  dynamic rules {
+  group = ibm_is_security_group.default_sg.id
 
-    for_each = var.sg_rules
-
-    content {
-      direction   = rules.value.direction
-      ip_version  = rules.value.ip_version
-      port_max    = rules.value.port_max
-      port_min    = rules.value.port_min
-      protocol    = rules.value.protocol
-      remote      = rules.value.remote
-    }
-  }
+  direction = "var.sg_rules[${count.index}].direction"
 }
